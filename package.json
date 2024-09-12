@@ -1,0 +1,16 @@
+{
+  "name": "si5b_roger",
+  "version": "1.0.0",
+  "description": "Program 1",
+  "main": "./src/node.js",
+  "scripts": {
+    "start": "node ./src/node.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Roger",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
