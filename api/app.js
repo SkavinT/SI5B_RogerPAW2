@@ -8,6 +8,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var bukusRouter = require('./routes/bukus'); // Pastikan path ini benar
 
+const mongoose = require('mongoose');
+
 //CORS ENABLED
 //CROSS ORIGIN RESOURCE SHARING
 var app = express();
@@ -19,6 +21,13 @@ app.use((req, res, next) => {
     'GET, POST, PUT, DELETE');
   
   next();
+});
+
+mongoose.connect('mongodb://localhost:27017/dbbuku'
+).then(() => {
+  console.log('Connected to database');
+}).catch(() => {
+  // console.log('Connection failed');
 });
 
 // view engine setup

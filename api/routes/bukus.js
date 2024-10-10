@@ -20,8 +20,11 @@ router.post('/', (req, res) => {
         genre: req.body.genre,
     });
     console.log(buku);
-    res.status(201).json({
-        message: 'Data berhasil disimpan',
+    buku.save().then((createdBuku)=>{
+        res.status(201).json({
+            message: 'Data Berhasil Disimpan',
+            bukuId: createdBuku._id,
+        });
     });
 });
 module.exports = router;
