@@ -13,7 +13,8 @@ const Buku = require('../model/buku');
 //     });
 // });
 
-router.post('/:id', (req, res) => {
+//insert data
+router.post('/', (req, res) => {
     const buku = new Buku({
         judul: req.body.judul,
         penulis: req.body.penulis,
@@ -29,7 +30,8 @@ router.post('/:id', (req, res) => {
         });
     });
 });
-router.get('/:id', (req, res) => {
+//ambil data
+router.get('/', (req, res) => {
     Buku.find()
     .then((documents)=>{
         res.status(200).json({
@@ -46,6 +48,22 @@ router.delete('/:id', (req, res) => {
             message: 'Data Buku berhasil dihapus',
         });
     });
+});
+router.put('/:id', (req, res) => {
+    const buku = new Buku({
+        _id: req.params.id,
+        judul: req.body.judul,
+        penulis: req.body.penulis,
+        genre: req.body.genre,
+    });
+    Buku.updateOne({_id: req.params.id}, buku)
+    .then((hasil)=>{
+        res.status(200).json({
+            message: 'Update data berhasil',
+            result: hasil
+        });
+    });
+    
 });
 
 
