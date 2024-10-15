@@ -13,7 +13,7 @@ const Buku = require('../model/buku');
 //     });
 // });
 
-router.post('/postbuku', (req, res) => {
+router.post('/:id', (req, res) => {
     const buku = new Buku({
         judul: req.body.judul,
         penulis: req.body.penulis,
@@ -29,7 +29,7 @@ router.post('/postbuku', (req, res) => {
         });
     });
 });
-router.get('/getbuku', (req, res) => {
+router.get('/:id', (req, res) => {
     Buku.find()
     .then((documents)=>{
         res.status(200).json({
@@ -39,7 +39,7 @@ router.get('/getbuku', (req, res) => {
 
     });
 });
-router.delete('/deletebuku', (req, res) => {
+router.delete('/:id', (req, res) => {
     Buku.deleteOne({_id: req.params.id})
     .then(()=>{
         res.status(200).json({
