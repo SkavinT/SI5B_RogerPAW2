@@ -13,18 +13,40 @@ const Buku = require('../model/buku');
 //     });
 // });
 
-router.post('/', (req, res) => {
+router.post('/postbuku', (req, res) => {
     const buku = new Buku({
         judul: req.body.judul,
         penulis: req.body.penulis,
         genre: req.body.genre,
     });
-    console.log(buku);
+    
+    
+    //console.log(buku);
     buku.save().then((createdBuku)=>{
-        res.status(201).json({
+        res.status(200).json({
             message: 'Data Berhasil Disimpan',
             bukuId: createdBuku._id,
         });
     });
 });
+router.get('/getbuku', (req, res) => {
+    Buku.find()
+    .then((documents)=>{
+        res.status(200).json({
+            message: 'Get Data Buku',
+            buku: documents,
+        });
+
+    });
+});
+router.delete('/deletebuku', (req, res) => {
+    Buku.deleteOne({_id: req.params.id})
+    .then(()=>{
+        res.status(200).json({
+            message: 'Data Buku berhasil dihapus',
+        });
+    });
+});
+
+
 module.exports = router;

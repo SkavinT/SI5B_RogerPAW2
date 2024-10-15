@@ -18,7 +18,7 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept');
   res.setHeader('Access-Control-Allow-Methods',
-    'GET, POST, PUT, DELETE');
+    'GET, POST, PATCH, DELETE, OPTIONS');
   
   next();
 });
@@ -26,8 +26,8 @@ app.use((req, res, next) => {
 mongoose.connect('mongodb://localhost:27017/dbbuku'
 ).then(() => {
   console.log('Connected to database');
-}).catch(() => {
-  // console.log('Connection failed');
+}).catch((err) => {
+  console.log('Connection failed');
 });
 
 // view engine setup
@@ -42,7 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/buku', bukusRouter); // Pastikan path ini benar
+app.use('/bukus', bukusRouter); // Pastikan path ini benar
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -53,7 +53,8 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = req.app.get('env') === 
+  'development' ? err : {};
 
   // render the error page
   res.status(err.status || 500);
