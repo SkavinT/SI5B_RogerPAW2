@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-const Buku = require('../model/buku');
+
+const Bukucontroller = require('../controller/buku');
 
 // /* GET users listing. */
 // router.get('/', function(req, res, next) {
@@ -14,57 +15,16 @@ const Buku = require('../model/buku');
 // });
 
 //insert data
-router.post('/', (req, res) => {
-    const buku = new Buku({
-        judul: req.body.judul,
-        penulis: req.body.penulis,
-        genre: req.body.genre,
-    });
-    
-    
-    //console.log(buku);
-    buku.save().then((createdBuku)=>{
-        res.status(200).json({
-            message: 'Data Berhasil Disimpan',
-            bukuId: createdBuku._id,
-        });
-    });
-});
-//ambil data
-router.get('/', (req, res) => {
-    Buku.find()
-    .then((documents)=>{
-        res.status(200).json({
-            message: 'Get Data Buku',
-            buku: documents,
-        });
+router.post('/',Bukucontroller.createBuku);
 
-    });
-});
-router.delete('/:id', (req, res) => {
-    Buku.deleteOne({_id: req.params.id})
-    .then(()=>{
-        res.status(200).json({
-            message: 'Data Buku berhasil dihapus',
-        });
-    });
-});
-router.put('/:id', (req, res) => {
-    const buku = new Buku({
-        _id: req.params.id,
-        judul: req.body.judul,
-        penulis: req.body.penulis,
-        genre: req.body.genre,
-    });
-    Buku.updateOne({_id: req.params.id}, buku)
-    .then((hasil)=>{
-        res.status(200).json({
-            message: 'Update data berhasil',
-            result: hasil
-        });
-    });
-    
-});
+//ambil data
+router.get('/', Bukucontroller.readBuku);
+
+//delete
+router.delete('/:id', Bukucontroller.deleteBuku);
+
+//update
+router.put('/:id', Bukucontroller.updateBuku);
 
 
 module.exports = router;
