@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { BukuService } from './services/buku.service';
 
 @Component({
   selector: 'app-buku',
@@ -7,10 +8,16 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./buku.component.css']
 })
 export class BukuComponent {
+  constructor(public bukuService: BukuService){
+    
+
+  }
+
   simpanBuku(form: NgForm) {
+
     if (form.invalid) {
       console.log("Form Tidak Valid, Silahkan Cek Kembali");
-      // alert("Form Tidak Valid, Silahkan Cek Kembali");
+      alert("Form Tidak Valid, Silahkan Cek Kembali");
       return;
     }
     let genres: string[] = [];
@@ -30,5 +37,7 @@ export class BukuComponent {
 
     console.log("Pengujian Klik");
     console.log(form.value.judul, form.value.penulis, genres);
+
+    this.bukuService.addBuku(form.value.judul, form.value.penulis, genres);
   }
 }
