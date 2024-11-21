@@ -6,19 +6,19 @@ import { Buku } from '../../models/buku.model';
   providedIn: 'root'
 })
 export class BukuService {
-  private url: string = "http://localhost:3000/bukus";
+  private url: string = "http://127.0.0.1:3000/bukus";
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  addBuku(judul: string, penulis: string, genre: string[]) {
+  addBuku(judul: string, penulis: string, genres: string[]) {
     const buku: Buku = {
       _id: null,
       judul: judul,
       penulis: penulis,
-      genre: genre
+      genre: genres
     };
-    // this.http.post<{ message: string }>(this.url, buku).subscribe((response) => {
-    //   console.log(response.message);
-    // });
+    this.http.post<{ message: string }>(this.url, buku).subscribe((response) => {
+      console.log(response.message);
+    });
   }
 }
