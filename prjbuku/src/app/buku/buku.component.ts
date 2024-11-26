@@ -8,10 +8,14 @@ import { Buku } from '../models/buku.model';
   selector: 'app-buku',
   templateUrl: './buku.component.html',
   styleUrls: ['./buku.component.css'],
+  
 })
 export class BukuComponent implements OnInit, OnDestroy {
   bukuList: Buku[] = [];
   private bukuSubs: Subscription = new Subscription();
+
+  //pagination
+  p: number = 1;
 
   constructor(public bukuService: BukuService) {}
 
