@@ -6,16 +6,16 @@ import { BukuComponent } from './buku/buku.component';
 
 const routes: Routes = [
   {
-    path: 'admin',
-    component: AdminComponent,
-    children: [
+    path : 'admin',
+    component : AdminComponent,
+    children :[
       {
         path: '',
-        component: DashboardComponent,
+        component : DashboardComponent
       },
       {
-        path: 'buku',
-        component: BukuComponent
+        path : 'buku',
+        component : BukuComponent
       }
     ]
   }

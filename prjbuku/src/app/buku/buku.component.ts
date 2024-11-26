@@ -1,43 +1,46 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { BukuService } from './services/buku.service';
+import { Subscription } from 'rxjs';
+import { BukuService } from '../services/buku.service';
+import { Buku } from '../models/buku.model';
 
 @Component({
   selector: 'app-buku',
   templateUrl: './buku.component.html',
-  styleUrls: ['./buku.component.css']
+  styleUrls: ['./buku.component.css'],
 })
-export class BukuComponent {
-  constructor(public bukuService: BukuService){
-    
+export class BukuComponent implements OnInit, OnDestroy {
+  bukuList: Buku[] = [];
+  private bukuSubs: Subscription = new Subscription();
 
+  constructor(public bukuService: BukuService) {}
+
+  ngOnInit(): void {
+    this.bukuSubs = this.bukuService.getBukuListener().subscribe((bukus: Buku[]) => {
+      this.bukuList = bukus;
+    });
+    this.bukuService.getBuku();
+  }
+
+  ngOnDestroy(): void {
+    this.bukuSubs.unsubscribe();
   }
 
   simpanBuku(form: NgForm) {
-
     if (form.invalid) {
-      console.log("Form Tidak Valid, Silahkan Cek Kembali");
-      alert("Form Tidak Valid, Silahkan Cek Kembali");
       return;
     }
-    let genres: string[] = [];
-
-    if (form.value.genre1 === true) {
-      genres.push("Biografi");
+    const genres: string[] = [];
+    if (form.value.genre1) {
+      genres.push('Biografi');
     }
-    if (form.value.genre2 === true) {
-      genres.push("Pendidikan");
+    if (form.value.genre2) {
+      genres.push('Pendidikan');
     }
-    if (form.value.genre3 === true) {
-      genres.push("Lainya");
+    if (form.value.genre3) {
+      genres.push('Lainya');
     }
-    // else{
-    //   genres.push("Tidak Ada Genre yang Dipilih");
-    // }
-
-    console.log("Pengujian Klik");
-    console.log(form.value.judul, form.value.penulis, genres);
-
     this.bukuService.addBuku(form.value.judul, form.value.penulis, genres);
+    form.resetForm();
   }
 }
