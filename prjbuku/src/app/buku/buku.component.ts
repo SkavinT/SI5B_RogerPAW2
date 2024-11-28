@@ -47,4 +47,7 @@ export class BukuComponent implements OnInit, OnDestroy {
     this.bukuService.addBuku(form.value.judul, form.value.penulis, genres);
     form.resetForm();
   }
+  hapusBuku(buku: Buku) {
+    this.bukuService.deleteBuku(buku);
+  }
 }
