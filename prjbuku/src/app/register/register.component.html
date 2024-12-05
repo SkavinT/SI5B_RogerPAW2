@@ -10,26 +10,70 @@
                                     <h3 class="text-center font-weight-light my-4">Create Account</h3>
                                 </div>
                                 <div class="card-body">
-                                    <form>
-
+                                    <form [formGroup]="registerForm" ngSubmit="onSubmit(registerForm)">
                                         <div class="form-floating mb-3">
                                             <input class="form-control" id="inputEmail" type="email"
-                                                placeholder="name@example.com" />
+                                                placeholder="name@example.com" formControlName="email" autocomplete="on"
+                                                [ngClass]="
+                                                    registerForm.get('email')?invalid && submitted ? 'is-invalid' : 'is-invalid' : ''
+                                                " />
                                             <label for="inputEmail">Email address</label>
+                                            <div *ngIf=" registerForm.get('email')?invalid && submitted ? ">
+                                                <small class="text-danger"
+                                                    *ngIf="registerForm.get('email')?.errors?.['required']">
+                                                    email is required
+                                                </small>
+                                                <small class="text-danger"
+                                                    *ngIf="registerForm.get('email')?.errors?.['email']">
+                                                    invalid email
+                                                </small>
+
+                                            </div>
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3 mb-md-0">
                                                     <input class="form-control" id="inputPassword" type="password"
-                                                        placeholder="Create a password" />
-                                                    <label for="inputPassword">Password</label>
+                                                        placeholder="Create a password" formControlName="password"
+                                                        autocomplete="on" [ngClass]="
+                                                            registerForm.get('password')?invalid && submitted ? 'is-invalid' : 'is-invalid' : ''
+                                                        />
+                                                    <label for=" inputPassword">Password</label>
+                                                    <div *ngIf=" registerForm.get('password')?invalid && submitted ? ">
+                                                        <small class="text-danger"
+                                                            *ngIf="registerForm.get('password')?.errors?.['required']">
+                                                            password is required
+                                                        </small>
+                                                        <small class="text-danger"
+                                                            *ngIf="registerForm.get('password')?.errors?.['minlength']">
+                                                            password must be at least 8 characters!
+                                                        </small>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3 mb-md-0">
                                                     <input class="form-control" id="inputPasswordConfirm"
-                                                        type="password" placeholder="Confirm password" />
+                                                        type="password" placeholder="Confirm password"
+                                                        formControlName="passwordConfirm" autocomplete="on" 
+                                                        [ngClass]="{'is-invalid': registerForm.get('passwordConfirm')?.invalid && submitted}" />
                                                     <label for="inputPasswordConfirm">Confirm Password</label>
+                                                    <div *ngIf="registerForm.get('passwordConfirm')?.invalid && submitted">
+                                                        <small class="text-danger"
+                                                            *ngIf="registerForm.get('passwordConfirm')?.errors?.['required']">
+                                                            Password is required
+                                                        </small>
+                                                        <small
+                                                            *ngIf="registerForm.get('passwordConfirm')?.errors?.['minlength']">
+                                                            Password must be at least 8 characters
+
+                                                            
+                                                        </small>
+                                                        <small class="text-danger"
+                                                            *ngIf="registerForm.get('passwordConfirm')?.errors?.['mustMatch']">
+                                                            Password must match
+                                                        </small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -40,6 +84,19 @@
                                     </form>
                                 </div>
                                 <div class="card-footer text-center py-3">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                      </div>
+                                     
+                                      <div
+                                      *ngIf="executeState !=''"
+                                      class="text-success fw-bolder fs-4"
+
+                                        
+                                        {{executeState}}
+                                      >
+                                        
+                                      </div>
                                     <div class="small"><a href="login.html">Have an account? Go to login</a></div>
                                 </div>
                             </div>
