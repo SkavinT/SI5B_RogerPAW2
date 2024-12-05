@@ -7,10 +7,9 @@ import { AdminComponent } from './admin/admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { BukuComponent } from './buku/buku.component';
 import { FormsModule } from '@angular/forms';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { HttpClientModule } from '@angular/common/http';
-import { RegisterComponent } from './buku/register/register.component';
-
+import { NgxPaginationModule } from 'ngx-pagination';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +25,6 @@ import { RegisterComponent } from './buku/register/register.component';
     FormsModule,
     HttpClientModule,
     NgxPaginationModule
-    
   ],
   providers: [
     provideClientHydration(),
