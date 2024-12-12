@@ -1,14 +1,14 @@
 {
-  "name": "si5b_roger",
+  "name": "2p",
   "version": "1.0.0",
-  "description": "Program 1",
-  "main": "./src/node.js",
+  "description": "Program Pertama Express JS",
+  "main": "./src/index.js",
   "scripts": {
-    "start": "node ./src/node.js",
+    "start": "node ./src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "Roger",
+  "author": "Nama",
   "license": "ISC",
   "dependencies": {
     "express": "^4.21.0"

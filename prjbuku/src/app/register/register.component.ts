@@ -1,35 +1,76 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { UserService } from '../services/user.service';
 import { Subscription } from 'rxjs';
+import { BukuService } from '../services/buku.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css'] // Fixed typo: changed 'styleUrl' to 'styleUrls'
+  styleUrl: './register.component.css',
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
-  submitted: boolean = false;
-  executeState: string = "";
+  submitted = false;
+  executeState = '';
   showSpinner = false;
   private registerSub: Subscription = new Subscription();
 
   constructor(
-    private fb: FormBuilder,
+    public userService: UserService,
+    public bukuService: BukuService,
+    private fb: FormBuilder
   ) {
-    this.registerForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(8)]] // Fixed missing comma
-    });
+    this.registerForm = this.fb.group(
+      {
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(8)]],
+        confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
+      },
+      {
+        validator: this.checkIfMatchingPasswords('password', 'confirmPassword'),
+      }
+    );
   }
-  onsSubmit() {
+
+  ngOnInit(): void {
+    this.registerSub = this.userService
+      .executeUserListener()
+      .subscribe((value) => {
+        //console.log(value);
+        this.executeState = value;
+        if (this.executeState != '') {
+          this.showSpinner = false;
+        }
+      });
+  }
+
+  onSubmit(form: FormGroup) {
     this.submitted = true;
-    if (this.registerForm.invalid) {
+    this.showSpinner = true;
+    if (form.invalid) {
+      this.showSpinner = false;
       return;
     }
-    this.showSpinner = true;
-    this.executeState = "Loading...";
-    // Add your code here
+    this.userService.addUser(form.value.email, form.value.password);
+  }
+
+  checkIfMatchingPasswords(
+    passwordKey: string,
+    passwordConfirmationKey: string
+  ) {
+    return (group: FormGroup) => {
+      let passwordInput = group.controls[passwordKey];
+      let passwordConfirmationInput = group.controls[passwordConfirmationKey];
+
+      if (passwordInput.value !== passwordConfirmationInput.value) {
+        return passwordConfirmationInput.setErrors({ notMatch: true });
+      }
+    };
   }
 }

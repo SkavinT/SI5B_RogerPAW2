@@ -5,7 +5,8 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
-// a middleware sub-stack shows request info for any type of HTTP request to the /user/:id path
+
+//contoh pertama
 router.use('/user', (req, res, next) => {
   console.log('Router middleware - Request URL:', req.originalUrl)
   next()
@@ -14,10 +15,11 @@ router.use('/user', (req, res, next) => {
   next()
 });
 
-router.get('/user', (req, res, next) => {
-  res.send('Hello dari contoh router middleware')
+router.get('/user', (req, res) => {
+  res.send("Hello dari contoh router middleware");
 });
 
+//contoh kedua
 router.get('/user/:id', (req, res, next) => {
   // if the user ID is 0, skip to the next router
   if (req.params.id === '0') next('route')
@@ -25,13 +27,13 @@ router.get('/user/:id', (req, res, next) => {
   else next()
 }, (req, res, next) => {
   // render a regular page
-  res.render('regular')
-});
+  res.send('regular')
+})
 
 // handler for the /user/:id path, which renders a special page
 router.get('/user/:id', (req, res, next) => {
   console.log(req.params.id)
   res.send('special')
-});
+})
 
 module.exports = router;

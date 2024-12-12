@@ -1,9 +1,8 @@
-
-    <% let title ="Template Engine" %>
+    <% let title ="Template engine Universitas MDP" %>
     <%= title %>
-    
+
     <br>
-    <% caption %>
+    <%= caption  %>
 
     <table>
         <tr>
@@ -11,10 +10,10 @@
             <th>NPM</th>
         </tr>
 
-        <% data.forEach((element, no) => { %>
-            <tr>
-                <td><%= no + 1 %></td>
-                <td><%= element.npm %></td>
-            </tr>
-        <% }); %>
+        <% data.forEach((element,no) => { %>
+          <tr>
+            <td><%= no+=1 %></td>
+            <td><%= element.npm  %></td>
+          </tr>  
+        <%}); %>
     </table>

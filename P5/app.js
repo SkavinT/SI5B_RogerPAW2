@@ -19,18 +19,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use((req,res,next) => {
-  console.log("Mulai log Middleware ");
+app.use((req, res, next)=>{
+  console.log("Mulai log middleware");
   next();
-
 });
 
-app.use((req,res,next) => {
-  console.log("Tanggal = " + Date());
+app.use((req, res, next)=>{
+  console.log("Tanggal =" + Date());
   next();
-
 });
-
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -50,11 +47,11 @@ app.get('/appmiddle', logStuff, (req, res, next) => {
   res.send('User Info')
 })
 
-app.get('/errmid', (req,res,next) => {
-  throw new Error('Ada Error Hubungi Admin');
+app.get('/errmid', (req, res ,next) => {
+  throw new Error('Ada error, hubungi Administrator');
 });
 
-app.use((err, req, res, next) => {
+app.use((err, req, res, next)=>{
   console.log(err);
   res.status(500).send(err.toString());
 });
